@@ -1,31 +1,12 @@
+import { useEffect, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import { supabase } from './lib/supabase-client'; // Ensure the path is correct
+import { useRouter, Redirect } from 'expo-router';
 
-import 'react-native-url-polyfill/auto'
-import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
-import {Link, useRouter, Redirect, router} from "expo-router";
-import { Text, View, ActivityIndicator } from "react-native";
+export default function IndexPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
-export default function App() {
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if(session){
-        router.replace("/(tabs)/profile")
-      }
-      else{
-        console.log("no user")
-      }
-    })
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      if(session){
-        router.replace("/(tabs)/profile");
-      }
-      else{
-        router.replace("/(auth)/login");
-      }
-    })
-  }, [])
+  return(<Redirect href="/(auth)/login" />);
 
 }

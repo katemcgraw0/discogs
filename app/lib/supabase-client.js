@@ -8,23 +8,14 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
+console.log(supabaseUrl)
+console.log(supabaseAnonKey)
 
 
-const ExpoSecureStoreAdapter = {
-  getItem: async (key) => {
-    return await SecureStore.getItemAsync(key)
-  },
-  setItem: async (key, value) => {
-    return await SecureStore.setItemAsync(key, value)
-  },
-  deleteItem: async (key) => {
-    return await SecureStore.deleteItemAsync(key)
-  },
-}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    storage: ExpoSecureStoreAdapter,
+    storage: AsyncStorage,
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,

@@ -6,8 +6,8 @@ import {
   Text, 
   TouchableOpacity, 
   View 
-} from 'react-native'
-import { supabase } from '../lib/supabase'
+} from 'react-native';
+import { supabase } from '../lib/supabase-client'
 
 export default function Profile() {
   const [user, setUser] = useState(null)
