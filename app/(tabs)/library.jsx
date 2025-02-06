@@ -5,8 +5,7 @@ export default function Library() {
   return (
     <View
     >
-      <Text className = "text-red-500 text-xl">Edit app/index.tsx to edit this screen.</Text>
-      <Link className = "bg-black text-white" href="/(tabs)">LINK TO APP</Link>
+      <Text className = "text-red-500 text-xl">library</Text>
     </View>
   );
 }

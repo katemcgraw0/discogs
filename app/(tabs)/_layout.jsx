@@ -1,65 +1,84 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from 'expo-router'
 
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from '@expo/vector-icons/Ionicons'
 
-
-export default function TabLayout() {
+export default function TabLayout () {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#8B0000',
+        tabBarActiveTintColor: '#8B0000', headerShown:false
       }}
     >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
-          title: 'Home',
+          tabBarLabel: 'Home',
+            title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-          ),
+            <Ionicons
+              name={focused ? 'home-sharp' : 'home-outline'}
+              color={color}
+              size={24}
+            />
+          )
         }}
       />
       <Tabs.Screen
-        name="browse"
+        name='browse'
         options={{
+          tabBarLabel: 'Browse',
           title: 'Browse',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'search' : 'search-outline'} color={color} size={24}/>
-          ),
+            <Ionicons
+              name={focused ? 'search' : 'search-outline'}
+              color={color}
+              size={24}
+            />
+          )
         }}
       />
 
-
-<Tabs.Screen
-        name="library"
+      <Tabs.Screen
+        name='library'
         options={{
           title: 'Library',
+          tabBarLabel: 'Library',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'library' : 'library-outline'} color={color} size={24} />
-          ),
+            <Ionicons
+              name={focused ? 'library' : 'library-outline'}
+              color={color}
+              size={24}
+            />
+          )
         }}
       />
       <Tabs.Screen
-        name="wishlist"
+        name='wishlist'
         options={{
           title: 'Wishlist',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'list' : 'list-outline'} color={color} size={24} />
-          ),
+            <Ionicons
+              name={focused ? 'list' : 'list-outline'}
+              color={color}
+              size={24}
+            />
+          )
         }}
       />
 
-<Tabs.Screen
-        name="profile"
+      <Tabs.Screen
+        name='profile'
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'person-circle' : 'person-circle-outline'} color={color} size={24} />
-          ),
+            <Ionicons
+              name={focused ? 'person-circle' : 'person-circle-outline'}
+              color={color}
+              size={24}
+            />
+          )
         }}
       />
-      
     </Tabs>
-
-  );
+  )
 }

@@ -1,12 +1,31 @@
-import { Text, View,  } from "react-native";
-import {Link} from "expo-router";
 
-export default function Index() {
-  return (
-    <View
-    >
-      <Text className = "text-red-500 text-xl">Edit app/index.tsx to edit this screen.</Text>
-      <Link className = "bg-black text-white" href="/(tabs)">LINK TO APP</Link>
-    </View>
-  );
+import 'react-native-url-polyfill/auto'
+import { useState, useEffect } from 'react'
+import { supabase } from './lib/supabase'
+import {Link, useRouter, Redirect, router} from "expo-router";
+import { Text, View, ActivityIndicator } from "react-native";
+
+export default function App() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if(session){
+        router.replace("/(tabs)/profile")
+      }
+      else{
+        console.log("no user")
+      }
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if(session){
+        router.replace("/(tabs)/profile");
+      }
+      else{
+        router.replace("/(auth)/login");
+      }
+    })
+  }, [])
+
 }
