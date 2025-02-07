@@ -15,16 +15,19 @@ export default function RootLayout() {
   useEffect(() => {
     // Check the initial session on app startup.
     async function getInitialSession() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log("Session:", session);
+      console.log("Segments:", segments);
 
       // If no session exists and we're not already in the auth group, go to login.
       if (!session && !segments.includes('(auth)')) {
+        console.log("Redirecting to login");
+        setLoading(false);
         router.replace('/(auth)/login');
       }
       // If there is a session but we're on an auth page (e.g. the login screen), redirect to your main app.
       else if (session && segments.includes('(auth)')) {
+        setLoading(false);
         router.replace('/(tabs)/profile');
       }
       setLoading(false);
