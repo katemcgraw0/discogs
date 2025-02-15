@@ -3,8 +3,8 @@ import {Link, useRouter} from "expo-router";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CONSUMER_KEY = 'sCCRHcDdHLfjFhldGbzx';     // Replace with your key
-const CONSUMER_SECRET = 'UrETuvgjoWlJJRYjuVZHTQukSwvVcNar';
+const CONSUMER_KEY = process.env.CONSUMER_KEY;     
+const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
 
 export default function Browse() {

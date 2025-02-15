@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, useSearchParams } from 'expo-router';
 import axios from 'axios';
-import AlbumDropDown from '../../../components/albumDropDown';
+import AlbumDropDown from '../../../components/AlbumDropDown';
 const CONSUMER_KEY = process.env.CONSUMER_KEY;     
 const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 

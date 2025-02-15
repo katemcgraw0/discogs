@@ -4,9 +4,9 @@ import { supabase } from "../lib/supabase-client";
 import axios from "axios";
 import { Link } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native"; // ✅ Auto-refresh on tab focus
-
-const CONSUMER_KEY = "your_consumer_key";     
-const CONSUMER_SECRET = "your_consumer_secret";
+import AlbumTile from '../../components/AlbumTile';
+const CONSUMER_KEY = process.env.CONSUMER_KEY;     
+const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
 export default function Library() {
     const [user, setUser] = useState(null);
@@ -14,7 +14,7 @@ export default function Library() {
     const [albums, setAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    
     // Step 1: Get the current user
     useEffect(() => {
         const fetchUser = async () => {
@@ -122,29 +122,7 @@ export default function Library() {
                 <Text className="text-gray-500">No albums found in your collection.</Text>
             ) : (
                 albums.map((album) => (
-                    <View key={album.id} className="mb-6 flex-row items-center">
-                        {/* Album Image */}
-                        {album.thumb && (
-                            <Image
-                                source={{ uri: album.thumb }}
-                                className="w-20 h-20 rounded-lg mr-4"
-                                resizeMode="cover"
-                            />
-                        )}
-
-                        {/* Album Details */}
-                        <View className="flex-1">
-                            <Text className="text-lg font-semibold">{album.title}</Text>
-                            <Text className="text-sm text-gray-500">
-                                {album.year} • {album.country}
-                            </Text>
-
-                            {/* Link to album details */}
-                            <Link href={`/browse/${album.id}`} className="text-blue-500 mt-2">
-                                View Details
-                            </Link>
-                        </View>
-                    </View>
+                    <AlbumTile key={album.id} album={album} showDropdown={true} />
                 ))
             )}
         </ScrollView>
