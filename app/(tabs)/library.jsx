@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { View, Text, ScrollView, Image, ActivityIndicator, Alert } from "react-native";
 import { supabase } from "../lib/supabase-client";
 import axios from "axios";
 import { Link } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native"; // ✅ Auto-refresh on tab focus
 
-const CONSUMER_KEY = process.env.CONSUMER_KEY;     
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
+const CONSUMER_KEY = "your_consumer_key";     
+const CONSUMER_SECRET = "your_consumer_secret";
 
 export default function Library() {
     const [user, setUser] = useState(null);
@@ -14,8 +15,8 @@ export default function Library() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Step 1: Get the current user
     useEffect(() => {
-        // Get the current user
         const fetchUser = async () => {
             const { data, error } = await supabase.auth.getUser();
             if (error || !data?.user) {
@@ -28,14 +29,20 @@ export default function Library() {
         fetchUser();
     }, []);
 
-    useEffect(() => {
-        if (user) {
-            fetchUserAlbums();
-        }
-    }, [user]);
+    // Step 2: Fetch albums whenever this tab is focused
+    useFocusEffect(
+        useCallback(() => {
+            if (user) {
+                fetchUserAlbums();
+            }
+        }, [user])
+    );
 
-    // Step 1: Get the album IDs the user owns
+    // Fetch album IDs from Supabase
     const fetchUserAlbums = async () => {
+        setLoading(true);
+        setAlbums([]); // ✅ Clear old albums before fetching new ones
+
         try {
             const { data, error } = await supabase
                 .from("collections")
@@ -43,15 +50,16 @@ export default function Library() {
                 .eq("user_id", user?.id);
 
             if (error) {
-              console.log(error);
+                console.log(error);
                 throw new Error("Error fetching album collection");
             }
-            console.log("user album data", data);
+
+            console.log("User album data:", data);
             const ids = data.map((item) => item.album_id);
-            console.log(ids)
+            console.log("Fetched Album IDs:", ids);
             setAlbumIds(ids);
 
-            // Step 2: Fetch album details
+            // Step 3: Fetch album details
             fetchAlbumDetails(ids);
         } catch (err) {
             setError(err.message);
@@ -59,22 +67,22 @@ export default function Library() {
         }
     };
 
-    // Step 2: Fetch album details from Discogs API
+    // Fetch album details from Discogs API
     const fetchAlbumDetails = async (ids) => {
         try {
             const albumData = await Promise.all(
                 ids.map(async (id) => {
-                  const url = `https://api.discogs.com/releases/${id}`;
-                  console.log('fetching release details from:', url);
-                  const response = await axios.get(url, {
-                    params: {
-                      key: CONSUMER_KEY,
-                      secret: CONSUMER_SECRET,
-                    },
-                    headers: {
-                      'User-Agent': 'MyVinylApp/1.0',
-                    },
-                  });
+                    const url = `https://api.discogs.com/releases/${id}`;
+                    console.log("Fetching release details from:", url);
+                    const response = await axios.get(url, {
+                        params: {
+                            key: CONSUMER_KEY,
+                            secret: CONSUMER_SECRET,
+                        },
+                        headers: {
+                            "User-Agent": "MyVinylApp/1.0",
+                        },
+                    });
 
                     return response.data;
                 })
@@ -82,7 +90,7 @@ export default function Library() {
 
             setAlbums(albumData);
         } catch (err) {
-          console.log(err);
+            console.log(err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -132,7 +140,7 @@ export default function Library() {
                             </Text>
 
                             {/* Link to album details */}
-                            <Link href={`/album/${album.id}`} className="text-blue-500 mt-2">
+                            <Link href={`/browse/${album.id}`} className="text-blue-500 mt-2">
                                 View Details
                             </Link>
                         </View>
