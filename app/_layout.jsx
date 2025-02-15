@@ -4,7 +4,7 @@ import "../global.css"
 import React, { useEffect, useState } from 'react';
 import { Slot, useRouter, useSegments, Stack } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
-import { supabase } from './lib/supabase-client'; // Adjust the import path as needed
+import { supabase } from './lib/supabase-client'; 
 
 export default function RootLayout() {
   const router = useRouter();

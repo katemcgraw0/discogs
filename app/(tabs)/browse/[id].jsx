@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, useSearchParams } from 'expo-router';
 import axios from 'axios';
-
-const CONSUMER_KEY = 'sCCRHcDdHLfjFhldGbzx';     
-const CONSUMER_SECRET = 'UrETuvgjoWlJJRYjuVZHTQukSwvVcNar';
+import AlbumDropDown from '../../../components/albumDropDown';
+const CONSUMER_KEY = process.env.CONSUMER_KEY;     
+const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
 export default function ReleaseDetails() {
   const { id } = useLocalSearchParams(); // read the dynamic [id] from the URL
@@ -20,7 +20,7 @@ export default function ReleaseDetails() {
         // GET /masters/{master_id}
         // We'll assume "release" for this example
         const url = `https://api.discogs.com/releases/${id}`;
-
+        console.log('fetching release details from:', url);
         const response = await axios.get(url, {
           params: {
             key: CONSUMER_KEY,
@@ -60,7 +60,10 @@ export default function ReleaseDetails() {
   return (
     <ScrollView className="flex-1 p-4">
       {/* Basic Info */}
-      <Text className="text-2xl font-bold mb-2">{release.title}</Text>
+      <View className="flex-row items-center justify-between mb-2">
+                <Text className="text-2xl font-bold">{release.title}</Text>
+                <AlbumDropDown albumid={id} />
+            </View>
 
       {/* Artwork */}
       {release.thumb && (
