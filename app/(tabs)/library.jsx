@@ -5,8 +5,8 @@ import axios from "axios";
 import { Link } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native"; // ✅ Auto-refresh on tab focus
 import AlbumTile from '../../components/AlbumTile';
-const CONSUMER_KEY = process.env.CONSUMER_KEY;     
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
+const CONSUMER_KEY = process.env.EXPO_PUBLIC_CONSUMER_KEY;     
+const CONSUMER_SECRET = process.env.EXPO_PUBLIC_CONSUMER_SECRET;
 
 export default function Library() {
     const [user, setUser] = useState(null);
@@ -122,7 +122,7 @@ export default function Library() {
                 <Text className="text-gray-500">No albums found in your collection.</Text>
             ) : (
                 albums.map((album) => (
-                    <AlbumTile key={album.id} album={album} showDropdown={true} />
+                    <AlbumTile key={album.id} album={album} user={user} showDropdown={true} />
                 ))
             )}
         </ScrollView>

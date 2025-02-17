@@ -3,8 +3,10 @@ import { View, Text, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, useSearchParams } from 'expo-router';
 import axios from 'axios';
 import AlbumDropDown from '../../../components/AlbumDropDown';
-const CONSUMER_KEY = process.env.CONSUMER_KEY;     
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
+
+
+const CONSUMER_KEY = process.env.EXPO_PUBLIC_CONSUMER_KEY;     
+const CONSUMER_SECRET = process.env.EXPO_PUBLIC_CONSUMER_SECRET;
 
 export default function ReleaseDetails() {
   const { id } = useLocalSearchParams(); // read the dynamic [id] from the URL
@@ -19,6 +21,7 @@ export default function ReleaseDetails() {
         // For a "master":
         // GET /masters/{master_id}
         // We'll assume "release" for this example
+    
         const url = `https://api.discogs.com/releases/${id}`;
         console.log('fetching release details from:', url);
         const response = await axios.get(url, {
@@ -32,6 +35,7 @@ export default function ReleaseDetails() {
         });
         setRelease(response.data);
       } catch (err) {
+        console.error(err);
         setError(err.message || 'Error fetching release details');
       }
     };

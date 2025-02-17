@@ -34,7 +34,7 @@ export default function Profile () {
   const handleEditProfile = async () => {
     setEditable(!editable)
   }
-  
+
   const handleSaveProfile = async () => {
     // Update user profile
     const { data, error } = await supabase.from('profiles').upsert({
@@ -47,6 +47,7 @@ export default function Profile () {
       Alert.alert('Error updating profile')
     } else {
       Alert.alert('Profile updated successfully')
+      handleEditProfile()
     }
   }
 
@@ -72,6 +73,7 @@ export default function Profile () {
             </Text>
 
             {/* Full user object (JSON) */}
+            {editable ? (
             <View className='text-xs text-gray-500 mt-4'>
               <Input
                 onChangeText={text => setFirstName(text)}
@@ -85,13 +87,24 @@ export default function Profile () {
                 placeholder='Last Name'
                 autoCapitalize={'none'}
               />
-            </View>
+           
             <Input
               onChangeText={text => setFirstName(text)}
               value={username}
               placeholder='username'
               autoCapitalize={'none'}
             />
+             </View>
+          ) : (<View><Text className='text-base text-gray-800'>
+            <Text className='font-semibold'>First name:</Text> {firstName}
+          </Text>
+          <Text className='text-base text-gray-800'>
+            <Text className='font-semibold'>Last Name:</Text> {lastName}
+          </Text>
+          <Text className='text-base text-gray-800'>
+            <Text className='font-semibold'>Username</Text> {username}
+          </Text>
+          </View>)}
           </View>
         ) : (
           <Text className='text-gray-600'>Loading user...</Text>
@@ -109,7 +122,7 @@ export default function Profile () {
 
         {editable && (
           <TouchableOpacity
-            onPress={handleLogout}
+            onPress={handleSaveProfile}
             className='mt-8 bg-green-800 p-3 rounded-md items-center'
           >
             <Text className='text-white font-semibold'>SAVE CHANGES</Text>

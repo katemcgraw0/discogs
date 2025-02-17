@@ -3,9 +3,11 @@ import {Link, useRouter} from "expo-router";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CONSUMER_KEY = process.env.CONSUMER_KEY;     
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
+// import {CONSUMER_KEY} from '@env';
+// import {CONSUMER_SECRET} from '@env';
+const CONSUMER_KEY = process.env.EXPO_PUBLIC_CONSUMER_KEY;     
+const CONSUMER_SECRET = process.env.EXPO_PUBLIC_CONSUMER_SECRET;
 
 export default function Browse() {
 
@@ -15,6 +17,8 @@ export default function Browse() {
 
 const handleSearch = async () => {
   try {
+    console.log(CONSUMER_KEY);
+    console.log(CONSUMER_SECRET);
     const response = await axios.get('https://api.discogs.com/database/search', {
       params: {
         q: searchQuery,
