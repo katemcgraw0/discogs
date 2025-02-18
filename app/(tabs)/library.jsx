@@ -100,7 +100,7 @@ export default function Library() {
     if (loading) {
         return (
             <View className="flex-1 items-center justify-center">
-                <ActivityIndicator size="large" color="#ff0000" />
+                <ActivityIndicator size="large" color="#355E3B" />
                 <Text className="mt-4">Loading your collection...</Text>
             </View>
         );
